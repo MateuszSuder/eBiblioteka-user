@@ -24,7 +24,7 @@
 1. Konfiguracja kontynera serwisu.
 2. Konfiguracja paczki js'owej.
 3. Pliki konfiguracyjne
-3.1 Plik do połączenia z bazom
+3.1 Plik do połączenia z bazą
 4. Folder zawierający wszelkiego rodzaju modyfikacje czy pipe dla frameworka
 4.1 Folder z tzw. middlewarami, czyli funkcje, które są wykonywane między requestem a logiką
 5. Schemy do mongoose
