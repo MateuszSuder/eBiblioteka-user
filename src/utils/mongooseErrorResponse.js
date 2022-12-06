@@ -1,15 +1,15 @@
 /**
  * Create http error response when mongoose error
  * @param {e.Response} response
- * @param {Error.ValidationError} error error caught from mongoose
+ * @param {Error.ValidationError} e error caught from mongoose
  */
 import genericErrorResponse from "./genericErrorResponse.js";
 
-export default async function mongooseErrorResponse(response, error) {
+export default function mongooseErrorResponse(response, e) {
     const errors = [];
 
-    for(const error in error.errors) {
-        errors.push(error.errors[error].properties.message);
+    for(const error in e.errors) {
+        errors.push(e.errors[error].properties.message);
     }
 
     return genericErrorResponse(response, errors, 400);
