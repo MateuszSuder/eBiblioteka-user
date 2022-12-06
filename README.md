@@ -19,6 +19,8 @@
     │   ├── routes 6.1 
     │   └── router.js 6.2
     ├── services 7.
+    ├── http 8.
+    │   └── fetcher 8.1 
     └── index.js 8.
     
 1. Konfiguracja kontynera serwisu.
