@@ -7,6 +7,8 @@ import express from "express";
     const port = process.env.PORT;
     if(!port) throw new Error("No port specified");
 
+    console.log(process.env.AUTH_NAME);
+
     app.use(express.json());
 
     app.listen(port, async () => {
