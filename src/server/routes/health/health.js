@@ -12,7 +12,6 @@ router.post("/:id", async (req, res) => {
 
     const newEntry = new testSchema({ id });
     await newEntry.save();
-
     res.send("OK");
 });
 
