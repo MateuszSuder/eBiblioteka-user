@@ -4,6 +4,7 @@ import {dirname} from "path";
 import {fileURLToPath} from "url";
 
 const app = express.Router();
+app.use(express.json());
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const folderRegex = new RegExp("^\\w+[^.]$", "g");
 const fileRegex = new RegExp(/\w+.js/);
