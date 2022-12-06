@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import {dirname} from "path";
 import {fileURLToPath} from "url";
 
-const app = express();
+const app = express.Router();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const folderRegex = new RegExp("^\\w+[^.]$", "g");
 const fileRegex = new RegExp(/\w+.js/);
