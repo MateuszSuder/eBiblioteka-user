@@ -12,7 +12,6 @@ import express from "express";
     app.use("/api", router);
     app.use(express.json());
 
-
     app.listen(port, async () => {
         console.log(`Microservice ${process.env.NAME} running on port ${port}`);
     })
