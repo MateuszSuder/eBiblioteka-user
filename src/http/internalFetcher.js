@@ -44,7 +44,7 @@ async function parseResponseContent(response) {
  * @param {"auth" | "user" | "book" | "reservation" | "borrowing" | "notification"} service service to which create request
  * @param {"POST" | "GET" | "PUT" | "DELETE"} method
  * @param {string} path endpoint path
- * @param options options for request
+ * @param [options] options for request
  * @param {object} [options.body]
  * @param {HeadersInit} [options.headers]
  * @param {boolean} [options.key]
