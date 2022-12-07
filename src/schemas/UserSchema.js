@@ -14,7 +14,7 @@ const AddressSchema = new Schema({
         required: true
     },
     houseNumber: {
-        type: Date,
+        type: String,
         required: true
     },
     apartmentNumber: String
