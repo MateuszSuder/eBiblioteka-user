@@ -1,5 +1,6 @@
 import internalFetcher from "../../http/internalFetcher.js";
 import genericErrorResponse from "../../utils/genericErrorResponse.js";
+import ROLES from "../../utils/roles.js";
 
 /**
  * @typedef {'ADMIN' | 'LIBRARIAN' | 'USER'} Role
