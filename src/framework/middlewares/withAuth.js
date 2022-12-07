@@ -41,3 +41,5 @@ const withAuth = (options= {
         next();
     }
 }
+
+export default withAuth;
