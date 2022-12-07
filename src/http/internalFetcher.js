@@ -55,36 +55,47 @@ async function parseResponseContent(response) {
  * @param {object} [options.body]
  * @param {HeadersInit} [options.headers]
  * @param {boolean} [options.key]
+ * @param {object} [options.query] query parameters
  * @throws {FetchError} on fetch error
  * @return {Promise<*>}
  */
 export default async function internalFetcher(service, method, path, options) {
+    let query = "";
     let optionsInit = {
-        headers: {}
+        headers: {
+            "Content-type": "application/json"
+        }
     };
 
-    if(options.key) {
+    if(options?.key) {
         optionsInit.headers["X-API-KEY"] = process.env.API_KEY;
     }
 
-    if(options.body) {
+    if(options?.body) {
         optionsInit.body = JSON.stringify(options.body);
     }
 
-    if(options.headers) {
+    if(options?.headers) {
         optionsInit.headers = {
             ...optionsInit.headers,
             ...options.headers
         }
     }
 
-    const response = await fetch(`http://${services[service].name}:${services[service].port}/api/${path}`, {
+    if(options?.query) {
+        query = `?${new URLSearchParams(options.query).toString()}`
+    }
+
+    const response = await fetch(`http://${services[service].name}:${services[service].port}/api/${path}${query}`, {
         method,
         ...optionsInit
     });
 
     if(!response.ok) {
-        throw new Error(await parseResponseContent(response));
+        throw {
+            ...(await parseResponseContent(response)),
+            status: response.status
+        };
     }
 
     return await parseResponseContent(response);
