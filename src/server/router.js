@@ -2,9 +2,12 @@ import express from "express";
 import fs from "fs/promises";
 import {dirname} from "path";
 import {fileURLToPath} from "url";
+import cookieParser from "cookie-parser";
 
 const app = express.Router();
 app.use(express.json());
+app.use(cookieParser());
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const folderRegex = new RegExp("^\\w+[^.]$", "g");
 const fileRegex = new RegExp(/\w+.js/);
