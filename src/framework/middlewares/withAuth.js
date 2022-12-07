@@ -2,8 +2,7 @@ import internalFetcher from "../../http/internalFetcher.js";
 import genericErrorResponse from "../../utils/genericErrorResponse.js";
 
 /**
- * @typedef Role
- * @type {'ADMIN' | 'LIBRARIAN' | 'USER'}
+ * @typedef {'ADMIN' | 'LIBRARIAN' | 'USER'} Role
  */
 
 /**
