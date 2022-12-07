@@ -8,7 +8,7 @@ import genericErrorResponse from "./genericErrorResponse.js";
 export default function mongooseErrorResponse(response, e) {
     if(e.code && e.code === 11000) {
         if(e.keyValue) {
-            const [key, value] = e.keyValue;
+            const [key, value] = Object.entries(e.keyValue)[0];
             return genericErrorResponse(response, `Entry with key ${key} and value ${value} exists`, 409);
         } else {
             return genericErrorResponse(response, "Conflict", 409);
