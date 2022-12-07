@@ -20,9 +20,14 @@ const withAuth = (options= {
             return next();
         } else {
             try {
+                let cookies = "";
+                for(const cookie in req.cookies) {
+                    cookies += `${cookie}=${req.cookies[cookie]};`
+                }
+
                 const { payload: user } = await internalFetcher("auth", "POST", "authorize", {
                     headers: {
-                        cookies: req.cookies
+                        Cookie: cookies
                     }
                 })
 
