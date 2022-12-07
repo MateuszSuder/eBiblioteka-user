@@ -3,18 +3,17 @@ import mongooseErrorResponse from "../../utils/mongooseErrorResponse.js";
 
 export default async (req, res) => {
     const { email, id, includePassword } = req.query;
-    console.log(email, id);
+    console.log(1);
 
     try {
         let query;
         if(id) {
-            console.log(id);
             query = UserSchema.findOne({ _id: id });
         } else if(email) {
             query = UserSchema.findOne({ email });
+        } else {
+            query = UserSchema.findOne({ _id: req.user._id});
         }
-
-        // todo add get without query - from jwt
 
         const select = { __v: 0 }
         if(!includePassword) select.password = 0;

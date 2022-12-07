@@ -5,7 +5,7 @@ import withAuth from "../../../framework/middlewares/withAuth.js";
 
 const router = express.Router();
 
-router.get("/", findUser);
+router.get("/", withAuth({ role: "USER" }), findUser);
 router.post("/", withAuth({ role: "ADMIN" }), createUser);
 
 export default router;
