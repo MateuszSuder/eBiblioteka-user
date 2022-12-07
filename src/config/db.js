@@ -4,7 +4,6 @@ const url = `mongodb://${process.env.DB_CONTAINER_NAME}:${process.env.DB_PORT}/$
 
 const connectDb = () => {
     try {
-        console.log(url);
         mongoose.connect(url, {
             user: process.env.DB_USERNAME,
             pass: process.env.DB_PASSWORD,

@@ -7,7 +7,6 @@ const router = express.Router();
 router.get("/", health);
 router.post("/:id", async (req, res) => {
     const {id} = (req.params);
-    console.log(id);
     res.send("OK");
 });
 
