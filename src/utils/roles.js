@@ -3,3 +3,5 @@ const ROLES = {
     LIBRARIAN: 1,
     ADMIN: 2
 }
+
+export default ROLES;
