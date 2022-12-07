@@ -2,8 +2,7 @@ import internalFetcher from "../../http/internalFetcher.js";
 import genericErrorResponse from "../../utils/genericErrorResponse.js";
 
 /**
- * @typedef Role
- * @type {'ADMIN' | 'LIBRARIAN' | 'USER'}
+ * @typedef {'ADMIN' | 'LIBRARIAN' | 'USER'} Role
  */
 
 /**
@@ -35,6 +34,7 @@ const withAuth = (options= {
                     if(ROLES[user.role] < ROLES[options.role]) return genericErrorResponse(res, null, 403);
                 }
 
+                req.user = user;
             } catch (e) {
                 return genericErrorResponse(res, null, e.status);
             }
