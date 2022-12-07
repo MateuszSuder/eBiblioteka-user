@@ -27,6 +27,8 @@ const withAuth = (options= {
                     }
                 })
 
+                console.log(user);
+
                 if(options?.role) {
                     if(!user.role) return genericErrorResponse(res, null, 403);
 

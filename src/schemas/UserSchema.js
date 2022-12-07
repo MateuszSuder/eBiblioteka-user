@@ -28,7 +28,9 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        minLength: 8,
+        maxLength: 32
     },
     name: {
         type: String,
@@ -44,6 +46,11 @@ const UserSchema = new Schema({
     },
     address: {
         type: AddressSchema,
+        required: true
+    },
+    role: {
+        type: String,
+        enum: ['USER', 'LIBRARIAN', 'ADMIN'],
         required: true
     }
 });

@@ -2,7 +2,7 @@ import UserSchema from "../../schemas/UserSchema.js";
 import mongooseErrorResponse from "../../utils/mongooseErrorResponse.js";
 
 export default async (req, res) => {
-    const user = new UserSchema({ ...req.body });
+    const user = new UserSchema({ ...req.body, role: "USER" });
     try {
         const { id } = await user.save();
 
