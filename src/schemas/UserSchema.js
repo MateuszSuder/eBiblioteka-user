@@ -23,7 +23,8 @@ const AddressSchema = new Schema({
 const UserSchema = new Schema({
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -47,4 +48,4 @@ const UserSchema = new Schema({
     }
 });
 
-export default mongoose.model("registerSchema", UserSchema);
+export default mongoose.model("User", UserSchema);
