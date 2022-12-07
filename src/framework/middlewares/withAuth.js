@@ -32,6 +32,7 @@ const withAuth = (options= {
                     if(ROLES[user.role] < ROLES[options.role]) return genericErrorResponse(res, null, 403);
                 }
 
+                req.user = user;
             } catch (e) {
                 return genericErrorResponse(res, null, e.status);
             }
