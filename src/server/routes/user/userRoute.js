@@ -1,11 +1,11 @@
 import express from "express";
-import health from "../../../services/health/health.js";
 import createUser from "../../../services/user/createUser.js";
+import findUserByEmail from "../../../services/user/findUserByEmail.js";
 
 const router = express.Router();
 
 
-router.get("/:email", health);
+router.get("/:email", findUserByEmail);
 router.post("/", createUser);
 
 export default router;
