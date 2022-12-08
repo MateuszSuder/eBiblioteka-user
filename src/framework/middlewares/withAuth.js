@@ -18,6 +18,7 @@ const withAuth = (options= {
     return async (req, res, next) => {
         const apiKey = req.header("X-API-KEY");
         if(apiKey === process.env.API_KEY) {
+            req.apiKey = true;
             return next();
         } else {
             try {
