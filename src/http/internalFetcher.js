@@ -86,7 +86,7 @@ export default async function internalFetcher(service, method, path, options) {
         query = `?${new URLSearchParams(options.query).toString()}`
     }
 
-    const response = await fetch(`http://${services[service].name}:${services[service].port}/api/${path}${query}`, {
+    const response = await fetch(`http://${services[service].name}:${services[service].port}/${path}${query}`, {
         method,
         ...optionsInit
     });
