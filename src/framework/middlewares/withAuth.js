@@ -40,7 +40,7 @@ const withAuth = (options= {
 
                 req.user = user;
             } catch (e) {
-                return genericErrorResponse(res, null, e.status);
+                return genericErrorResponse(res, null, e.status || 500);
             }
         }
 
