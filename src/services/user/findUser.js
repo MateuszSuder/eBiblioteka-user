@@ -8,10 +8,10 @@ export default async (req, res) => {
     try {
         let query;
         if(id) {
-            if(req.user.role === "USER" && id !== req.user._id) return genericErrorResponse(res, null, 403);
+            if(!req.apiKey && req.user.role === "USER" && id !== req.user._id) return genericErrorResponse(res, null, 403);
             query = UserSchema.findOne({ _id: id });
         } else if(email) {
-            if(req.user.role === "USER" && email !== req.user.email) return genericErrorResponse(res, null, 403);
+            if(!req.apiKey && req.user.role === "USER" && email !== req.user.email) return genericErrorResponse(res, null, 403);
             query = UserSchema.findOne({ email });
         } else {
             query = UserSchema.findOne({ _id: req.user._id});
@@ -28,6 +28,7 @@ export default async (req, res) => {
             return res.status(200).send(user);
         });
     } catch (e) {
+        console.log(e);
         return mongooseErrorResponse(res, e);
     }
 }
