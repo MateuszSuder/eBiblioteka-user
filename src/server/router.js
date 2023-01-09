@@ -8,7 +8,12 @@ const app = express.Router();
 app.use(express.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
-    console.log(`${req.method}::${req.path}`);
+    console.log(`${req.url} --- ${req.method}::${req.path}`);
+    next();
+})
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
     next();
 })
 

@@ -4,7 +4,7 @@ info:
   description: |-
   version: 1.0.0
 servers:
-  - url: https://localhost/api/user
+  - url: http://localhost/api
     description: Local development
 paths:
   /user:
@@ -114,31 +114,10 @@ paths:
                 $ref: "#/components/schemas/GenericError"
         403:
           $ref: "#/components/responses/Forbidden"
-  /users:
+  /user/all:
     get:
       description: Zwraca listę użytkowników (tylko dla ADMIN i LIBRARIAN).
       parameters:
-        - in: query
-          name: offset
-          description: Offset
-          required: true
-          schema:
-            type: number
-        - in: query
-          name: limit
-          description: Limit
-          schema:
-            type: number
-        - in: query
-          name: sort
-          description: Sortowanie
-          schema:
-            $ref: "#/components/schemas/UserSort"
-        - in: query
-          name: roleFilter
-          description: Filtrowanie użytkowników po roli
-          schema:
-            $ref: "#/components/schemas/UserRoleFilter"
         - in: query
           name: search
           description: Wyszukiwanie użytkownika po emailu
@@ -214,8 +193,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/UserWithRole"
-        pagination:
-          $ref: "#/components/schemas/Pagination"
     Address:
       type: object
       properties:
