@@ -1,0 +1,265 @@
+openapi: 3.0.3
+info:
+  title: User service
+  description: |-
+  version: 1.0.0
+servers:
+  - url: https://localhost/api/user
+    description: Local development
+paths:
+  /user:
+    get:
+      description: Zwaraca użytkownika o podanych argumentach. Jeśli argumenty niepodane zwraca aktualnie zalogowanego. Dla atrybutu "includePassword" zwraca równiesz zaszyfrowane hasło.
+      parameters:
+        - in: query
+          name: id
+          description: Id szukanego użytkownika
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: email
+          description: Email szukanego użytkownika
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: includePassword
+          description: Czy hasło ma zostać zwrócone (zaszyfrowane)
+          schema:
+            type: boolean
+          required: false
+      responses:
+        200:
+          description: Użytkownik znaleziony
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserWithRole"
+        403:
+          $ref: "#/components/responses/Forbidden"
+    post:
+      description: Tworzy nowego użytkownika. Role - Admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserWithPassword"
+      responses:
+        201:
+          description: Użytkownik stworzony
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+        403:
+          $ref: "#/components/responses/Forbidden"
+  /user/{id}:
+    put:
+      description: Modyfikacja użytkownika
+      parameters:
+        - in: path
+          name: id
+          description: Id użytkownika
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserWithPassword"
+      responses:
+        200:
+          description: Uzytkownik usunięty
+        403:
+          $ref: "#/components/responses/Forbidden"
+    delete:
+      description: Usuwa użytkownika
+      parameters:
+        - in: path
+          name: id
+          description: Id użytkownika
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Uzytkownik usunięty
+        403:
+          $ref: "#/components/responses/Forbidden"
+  /user/{id}/block:
+    put:
+      description: Blokuje użytkownika
+      parameters:
+        - in: path
+          name: id
+          description: Id użytkownika
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Uzytkownik zablokowany
+        404:
+          description: Użytkownik nieznaleziony
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericError"
+        403:
+          $ref: "#/components/responses/Forbidden"
+  /users:
+    get:
+      description: Zwraca listę użytkowników (tylko dla ADMIN i LIBRARIAN).
+      parameters:
+        - in: query
+          name: offset
+          description: Offset
+          required: true
+          schema:
+            type: number
+        - in: query
+          name: limit
+          description: Limit
+          schema:
+            type: number
+        - in: query
+          name: sort
+          description: Sortowanie
+          schema:
+            $ref: "#/components/schemas/UserSort"
+        - in: query
+          name: roleFilter
+          description: Filtrowanie użytkowników po roli
+          schema:
+            $ref: "#/components/schemas/UserRoleFilter"
+        - in: query
+          name: search
+          description: Wyszukiwanie użytkownika po emailu
+          schema:
+            type: string
+      responses:
+        200:
+          description: Zwrócono listę użytkowników
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListOfUsers"
+        403:
+          $ref: "#/components/responses/Forbidden"
+components:
+  responses:
+    Forbidden:
+      description: Brak uprawnień
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GenericError"
+  schemas:
+    User:
+      required:
+        - email
+        - name
+        - lastName
+        - dateOfBirth
+        - address
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        lastName:
+          type: string
+        dateOfBirth:
+          type: string
+          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+          example: "2019-05-17"
+        address:
+          $ref: "#/components/schemas/Address"
+    UserWithPassword:
+      allOf:
+        - $ref: "#/components/schemas/User"
+        - properties:
+            password:
+              description: Zaszyfrowane hasło
+              type: string
+    UserWithRole:
+      required:
+        - email
+        - name
+        - lastName
+        - dateOfBirth
+        - address
+        - role
+      allOf:
+        - $ref: "#/components/schemas/User"
+        - properties:
+            role:
+              type: string
+              enum:
+                - USER
+                - LIBRARIAN
+                - ADMIN
+    ListOfUsers:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserWithRole"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+    Address:
+      type: object
+      properties:
+        city:
+          type: string
+        street:
+          type: string
+        postal:
+          type: string
+        houseNumber:
+          type: string
+        apartmentNumber:
+          type: string
+    PaginationInput:
+      type: object
+      properties:
+        offset:
+          description: Początkowy index zwracanych wartości
+          type: number
+        limit:
+          description: Ilość wartości
+          type: number
+    Pagination:
+      type: object
+      allOf:
+          - properties:
+              count:
+                description: Ilość możliwych wartości
+                type: number
+          - $ref: "#/components/schemas/PaginationInput"
+    UserSort:
+      type: string
+      enum: [emailAsc, emailDesc]
+      description: >
+        Sort order:
+         * `emailAsc` - Email rosnąco, od A do Z
+         * `emailDesc` - Email malejąco, od Z do A
+    UserRoleFilter:
+      type: string
+      enum: [ADMIN, LIBRARIAN, USER]
+    GenericError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
