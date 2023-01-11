@@ -39,6 +39,11 @@ const withAuth = (options= {
                     if(ROLES[user.role] < ROLES[options.role]) return genericErrorResponse(res, null, 403);
                 }
 
+                if(req.user) {
+                    if(req.user.isBanned) return genericErrorResponse(res, `Użytkownik zbanowany`, 403);
+                    if(req.user.isDeleted) return genericErrorResponse(res, `Użytkownik usunięty`, 403);
+                }
+
                 req.user = user;
             } catch (e) {
                 return genericErrorResponse(res, null, e.status || 500);
