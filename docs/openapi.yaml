@@ -73,7 +73,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserWithPassword"
+              allOf:
+                - $ref: "#/components/schemas/UserWithPassword"
+                - type: object
+                  properties:
+                    newPassword:
+                      type: string
       responses:
         200:
           description: Uzytkownik usunięty
