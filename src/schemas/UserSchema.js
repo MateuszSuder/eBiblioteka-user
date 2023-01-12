@@ -51,6 +51,16 @@ const UserSchema = new Schema({
         type: String,
         enum: ['USER', 'LIBRARIAN', 'ADMIN'],
         required: true
+    },
+    isBanned: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    isDeleted: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 });
 
