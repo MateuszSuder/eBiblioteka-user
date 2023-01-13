@@ -10,7 +10,7 @@ export default async (req, res) => {
     const { id } = req.params;
 
     try {
-        const user = await UserSchema.findOneAndUpdate({
+        const user = await UserSchema.findOneAndUpdate({ _id: id }, {
             isDeleted: true
         })
 

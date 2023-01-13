@@ -13,8 +13,9 @@ export default async (req, res) => {
     const newUser = req.body;
 
     // If role user check if id from req.params is equal to userRequestId
-    if(req.user && req.user._id !== id) {
-        if(req.user.role === "USER") return genericErrorResponse(res, null, 403);
+    if(req.user) {
+        if(req.user._id !== id && req.user.role === "USER") return genericErrorResponse(res, null, 403);
+        if(req.user.role === "USER" && "role" in newUser) return genericErrorResponse(res, null, 403);
     }
 
     const { password: userPassword, newPassword, ...rest } = newUser;
@@ -42,16 +43,22 @@ export default async (req, res) => {
 
     // Find user, if exists change his body to req.body (newUser)
     try {
-        const { encrypted } = await internalFetcher("auth", "POST", "encrypt", {
-            key: true,
-            body: {
-                value: newPassword
-            }
-        })
+        let u = { ...rest };
+
+        if(newPassword) {
+            const { encrypted } = await internalFetcher("auth", "POST", "encrypt", {
+                key: true,
+                body: {
+                    value: newPassword
+                }
+            })
+
+            u.password = encrypted;
+        }
+
 
         const user = await UserSchema.findOneAndUpdate({_id: id}, {
-            ...rest,
-            password: encrypted
+            ...u
         })
 
         // If not found return 404
